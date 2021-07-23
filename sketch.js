@@ -14,11 +14,14 @@ function setup() {
   
   database=firebase.database()
 
-  database.ref('food').on("value",readPosition)
+database.ref('food').on("value",readPosition)
 
-  dog=createSprite(400,400,50,50)
+  milk1 = new Food()
+  milk1.getfeedTime()
+
+  dog=createSprite(700,400,50,50)
   dog.addImage(dogSad)
-  dog.scale=0.5
+  dog.scale=0.2
 }
 
 
@@ -27,20 +30,21 @@ background(0)
   drawSprites();
   //add styles here
 textSize(20)
-text("foods remaining: " + food,300,200)
-text("press up arrow,to feed the dog", 100,50)
+
+text("fedtime: "+milk1.feedtime,200,50)
+
+milk1.buttons()
+milk1.milkImg()
 
 if(food===0){
 
   dog.addImage(dogHappy)
-  dog.scale=0.5
+  dog.scale=0.2
 }
 
-if(keyWentDown(UP_ARROW) && food !==0){
-food--
-writeStock(food)
+
 }
-}
+
 
 function readPosition(data){
 
@@ -49,7 +53,8 @@ function readPosition(data){
 
 function writeStock(data){
 database.ref('/').set({
-  food:data
+  food:data,
+  feedtime:hour()
 })
 
 }
